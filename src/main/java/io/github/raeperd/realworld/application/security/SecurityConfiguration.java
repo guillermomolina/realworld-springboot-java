@@ -41,12 +41,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
         http.cors();
         http.formLogin().disable();
         http.logout().disable();
-        http.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        //http.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.authorizeRequests()
                 .antMatchers(GET, "/profiles/*").permitAll()
                 .antMatchers(GET, "/articles/**").permitAll()
-                .antMatchers(GET, "/tags/**").permitAll()
-                .anyRequest().authenticated();
+                .antMatchers(GET, "/tags/**").permitAll();
+                //.anyRequest().authenticated();
     }
 
     @Bean
