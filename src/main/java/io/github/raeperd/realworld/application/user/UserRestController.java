@@ -1,18 +1,23 @@
 package io.github.raeperd.realworld.application.user;
 
+import static io.github.raeperd.realworld.application.user.UserModel.fromUserAndToken;
+import static org.springframework.http.ResponseEntity.of;
+
+import javax.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import io.github.raeperd.realworld.domain.jwt.JWTSerializer;
 import io.github.raeperd.realworld.domain.user.Email;
 import io.github.raeperd.realworld.domain.user.UserService;
 import io.github.raeperd.realworld.infrastructure.jwt.UserJWTPayload;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-
-import static io.github.raeperd.realworld.application.user.UserModel.fromUserAndToken;
-import static org.springframework.http.ResponseEntity.of;
 
 @RestController
 class UserRestController {

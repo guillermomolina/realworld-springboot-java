@@ -1,11 +1,11 @@
 package io.github.raeperd.realworld.domain.user;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class UserService implements UserFindService {
@@ -28,8 +28,10 @@ public class UserService implements UserFindService {
 
     @Transactional(readOnly = true)
     public Optional<User> login(Email email, String rawPassword) {
-        return userRepository.findFirstByEmail(email)
+        var loginUser = userRepository.findFirstByEmail(email)
                 .filter(user -> user.matchesPassword(rawPassword, passwordEncoder));
+        loginUser.orElseThrow(NoSuchElementException::new);
+        return loginUser;
     }
 
     @Override
