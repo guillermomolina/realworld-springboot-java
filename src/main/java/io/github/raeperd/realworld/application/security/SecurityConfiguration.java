@@ -1,6 +1,10 @@
 package io.github.raeperd.realworld.application.security;
 
-import io.github.raeperd.realworld.domain.jwt.JWTDeserializer;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+
+import java.util.List;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -15,10 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.List;
-
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import io.github.raeperd.realworld.domain.jwt.JWTDeserializer;
 
 @EnableConfigurationProperties(SecurityConfigurationProperties.class)
 @Configuration
@@ -41,12 +42,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
         http.cors();
         http.formLogin().disable();
         http.logout().disable();
-        //http.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.authorizeRequests()
                 .antMatchers(GET, "/profiles/*").permitAll()
                 .antMatchers(GET, "/articles/**").permitAll()
-                .antMatchers(GET, "/tags/**").permitAll();
-                //.anyRequest().authenticated();
+                .antMatchers(GET, "/tags/**").permitAll()
+                .anyRequest().authenticated();
     }
 
     @Bean
